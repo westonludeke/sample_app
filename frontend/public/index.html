@@ -1,14 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    
     <title>Test App</title>
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h2>Hello World!</h2>
 
-  </body>
+    <p>Testing 123</p>
+
+    <!-- Adding a form for testing -->
+    <form id="testForm">
+        <label for="nameInput">Enter your name:</label>
+        <input type="text" id="nameInput" name="name" />
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Displaying the form input -->
+    <div id="result"></div>
+
+    <!-- Adding a simple list -->
+    <ul>
+        <li>Test Item 1</li>
+        <li>Test Item 2</li>
+        <li>Test Item 3</li>
+    </ul>
+
+    <!-- Adding a script for interactivity -->
+    <script>
+        document.getElementById('testForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = document.getElementById('nameInput').value;
+            document.getElementById('result').textContent = 'Hello, ' + name + '!';
+        });
+    </script>
+</body>
 </html>
