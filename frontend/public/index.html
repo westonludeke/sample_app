@@ -34,13 +34,9 @@
         <li>Test Item 3</li>
     </ul>
 
-    <!-- Adding a script for interactivity -->
-    <script>
-        document.getElementById('testForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var name = document.getElementById('nameInput').value;
-            document.getElementById('result').textContent = 'Hello, ' + name + '!';
-        });
-    </script>
+    <div id="capture">
+      <!-- Some content that you want to screenshot -->
+    </div>
+    <button id="btn" (click)="screenshot()">Capture</button>
 </body>
 </html>
