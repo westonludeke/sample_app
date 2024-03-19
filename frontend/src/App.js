@@ -46,7 +46,6 @@ const App = () => {
       <form id="testForm">
         <label htmlFor="nameInput">Enter your name:</label>
         <input type="text" id="nameInput" name="name" />
-        <button type="submit">Submit</button>
       </form>
 
       <ul>
