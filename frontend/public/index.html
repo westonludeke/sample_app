@@ -2,41 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <title>Test App</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
+      body {
+        font-family: Arial, sans-serif;
+      }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <h2>Hello World!</h2>
+  <h2>Hello World!</h2>
 
-    <p>Testing 123</p>
+  <p>Testing 123</p>
+  <form id="testForm">
+    <label for="nameInput">Enter your name:</label>
+    <input type="text" id="nameInput" name="name" />
+    <button type="submit">Submit</button>
+  </form>
+    
+  <ul>
+    <li>Test Item 1</li>
+    <li>Test Item 2</li>
+    <li>Test Item 3</li>
+  </ul>
 
-    <!-- Adding a form for testing -->
-    <form id="testForm">
-        <label for="nameInput">Enter your name:</label>
-        <input type="text" id="nameInput" name="name" />
-        <button type="submit">Submit</button>
-    </form>
+  <button id="captureBtn">Capture</button>
 
-    <!-- Displaying the form input -->
-    <div id="result"></div>
+  <script>
+    document.getElementById('captureBtn').addEventListener('click', function() {
+      html2canvas(document.body).then(function(canvas) {
+        // Convert the canvas to a data URL
+        document.body.appendChild(canvas);
+        var imgData = canvas.toDataURL('image/png');
+        window.open(imgData, '_blank');
+        
+        // You can now store this data URL in an array or object
+        // For this example, we'll just log it to the console
+        console.log('Screenshot:', imgData);
 
-    <!-- Adding a simple list -->
-    <ul>
-        <li>Test Item 1</li>
-        <li>Test Item 2</li>
-        <li>Test Item 3</li>
-    </ul>
-
-    <div id="capture">
-      <!-- Some content that you want to screenshot -->
-    </div>
-    <button id="btn" (click)="screenshot()">Capture</button>
+        // To store the screenshot, you can define an array or object outside this function
+        // For instance:
+        // var screenshots = [];
+        // screenshots.push(imgData);
+        });
+    });
+  </script>
 </body>
 </html>
