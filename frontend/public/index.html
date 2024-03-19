@@ -30,7 +30,12 @@
 
   <button id="captureBtn">Capture</button>
 
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.37/src/ua-parser.min.js"></script>
   <script>
+    var parser = new UAParser();
+    var result = parser.getResult();
+    console.log(result);
+
     document.getElementById('captureBtn').addEventListener('click', function() {
       html2canvas(document.body).then(function(canvas) {
         // Convert the canvas to a Blob
