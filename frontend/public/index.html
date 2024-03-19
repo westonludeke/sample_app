@@ -1,77 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <title>Test App</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>Test App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <h2>Hello World!</h2>
-
-  <p>Testing 123</p>
-  <form id="testForm">
-    <label for="nameInput">Enter your name:</label>
-    <input type="text" id="nameInput" name="name" />
-    <button type="submit">Submit</button>
-  </form>
-    
-  <ul>
-    <li>Test Item 1</li>
-    <li>Test Item 2</li>
-    <li>Test Item 3</li>
-  </ul>
-
-  <button id="captureBtn">Capture</button>
-
-  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.37/src/ua-parser.min.js"></script>
-  
-  <script>
-  fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => {
-      console.log('IP Address:', data.ip);
-    })
-    .catch(error => {
-      console.error('Error fetching IP address:', error);
-   });
-  </script>
-
-  <script>
-    var parser = new UAParser();
-    var result = parser.getResult();
-    console.log(result);
-
-    document.getElementById('captureBtn').addEventListener('click', function() {
-      html2canvas(document.body).then(function(canvas) {
-        // Convert the canvas to a Blob
-        canvas.toBlob(function(blob) {
-          // Create an object URL from the Blob
-          var url = URL.createObjectURL(blob);
-  
-          // Open the object URL in a new window
-          window.open(url, '_blank');
-  
-          // Optionally, revoke the object URL after opening it to release memory
-          URL.revokeObjectURL(url);
-        }, 'image/png');
-        
-        // You can still log the data URL to the console or store it if needed
-        var imgData = canvas.toDataURL('image/png');
-        console.log('Screenshot:', imgData);
-  
-        // To store the screenshot, you can define an array or object outside this function
-        // var screenshots = [];
-        // screenshots.push(imgData);
-      });
-    });
-  </script>
-  
+  <div id="root"></div>
 </body>
 </html>

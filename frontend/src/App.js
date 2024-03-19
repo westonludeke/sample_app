@@ -1,19 +1,57 @@
-// import './App.css';
-// import html2canvas from 'html2canvas';
-// import React from 'react';
+import React, { useEffect } from 'react';
+import html2canvas from 'html2canvas';
+import UAParser from 'ua-parser-js';
 
-// html2canvas(document.querySelector("#capture")).then(canvas => {
-//   document.body.appendChild(canvas)
-// });
+const App = () => {
+  useEffect(() => {
+    // Fetch IP Address
+    fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        console.log('IP Address log:', data.ip);
+      })
+      .catch(error => {
+        console.error('Error fetching IP address:', error);
+      });
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-       
-//       </header>
-//     </div>
-//   );
-// }
+  // Get browser info using UAParser
+  const parser = new UAParser();
+  const result = parser.getResult();
+  console.log(result);
+  }, []);
 
-// export default App;
+  const captureScreen = () => {
+    html2canvas(document.body).then(canvas => {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+          }, 'image/png');
+
+          const imgData = canvas.toDataURL('image/png');
+          console.log('Screenshot:', imgData);
+      });
+  };
+
+    return (
+        <div>
+            <h2>Hello World!</h2>
+            <p>Testing 123</p>
+            <form id="testForm">
+                <label htmlFor="nameInput">Enter your name:</label>
+                <input type="text" id="nameInput" name="name" />
+                <button type="submit">Submit</button>
+            </form>
+            
+            <ul>
+                <li>Test Item 1</li>
+                <li>Test Item 2</li>
+                <li>Test Item 3</li>
+            </ul>
+
+            <button id="captureBtn" onClick={captureScreen}>Capture</button>
+        </div>
+    );
+};
+
+export default App;
