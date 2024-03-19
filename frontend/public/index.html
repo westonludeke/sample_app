@@ -33,21 +33,28 @@
   <script>
     document.getElementById('captureBtn').addEventListener('click', function() {
       html2canvas(document.body).then(function(canvas) {
-        // Convert the canvas to a data URL
-        document.body.appendChild(canvas);
-        var imgData = canvas.toDataURL('image/png');
-        window.open(imgData, '_blank');
+        // Convert the canvas to a Blob
+        canvas.toBlob(function(blob) {
+          // Create an object URL from the Blob
+          var url = URL.createObjectURL(blob);
+  
+          // Open the object URL in a new window
+          window.open(url, '_blank');
+  
+          // Optionally, revoke the object URL after opening it to release memory
+          URL.revokeObjectURL(url);
+        }, 'image/png');
         
-        // You can now store this data URL in an array or object
-        // For this example, we'll just log it to the console
+        // You can still log the data URL to the console or store it if needed
+        var imgData = canvas.toDataURL('image/png');
         console.log('Screenshot:', imgData);
-
+  
         // To store the screenshot, you can define an array or object outside this function
-        // For instance:
         // var screenshots = [];
         // screenshots.push(imgData);
-        });
+      });
     });
   </script>
+  
 </body>
 </html>
