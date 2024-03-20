@@ -9,6 +9,7 @@ class App extends Component {
     ipAddress: '',
     browserInfo: {},
     name: '',
+    clientScreenCapture: null,
   };
 
   componentDidMount() {
@@ -48,8 +49,30 @@ class App extends Component {
     this.setState({ name: event.target.value });
   };
 
+  handleClientScreenCapture = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      const videoTrack = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(videoTrack);
+      const bitmap = await imageCapture.grabFrame();
+      videoTrack.stop(); // Stop the video track to release the camera
+
+      // Convert the bitmap to a data URL
+      const canvas = document.createElement('canvas');
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0);
+      const dataUrl = canvas.toDataURL('image/png');
+
+      this.setState({ clientScreenCapture: dataUrl });
+    } catch (error) {
+      console.error('Error capturing the screen:', error);
+    }
+  };
+
   render() {
-    const { screenCapture, ipAddress, browserInfo, name } = this.state;
+    const { screenCapture, ipAddress, browserInfo, name, clientScreenCapture } = this.state;
 
     return (
       <ScreenCapture onEndCapture={this.handleScreenCapture}>
@@ -69,6 +92,7 @@ class App extends Component {
             </form>
             
             <button onClick={onStartCapture}>screenshot</button>
+            <button onClick={this.handleClientScreenCapture}>Screen Capture</button> {/* New button for client-side screen capture */}
 
             {/* Display IP Address and Browser Info */}
             <div>
@@ -85,6 +109,13 @@ class App extends Component {
                   <h3>Screenshot Preview:</h3>
                   <img src={screenCapture} alt='react-screen-capture' />
                   <button onClick={this.handleSave}>download screenshot</button>
+                </div>
+              )}
+              {clientScreenCapture && (
+                <div>
+                  <h3>Client Screen Capture Preview:</h3>
+                  <img src={clientScreenCapture} alt='Client Screen Capture' />
+                  {/* You can add a download button here if needed */}
                 </div>
               )}
             </center>

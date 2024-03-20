@@ -2,7 +2,7 @@ input, textarea {
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
   line-height: normal; /* Override any inherited line-height value */
   vertical-align: top; /* Align the text at the top of the input field */
-  height: 30px;
+  /* height: 30px; */
 }
 
 html, body {
