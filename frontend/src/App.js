@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { ScreenCapture } from 'react-screen-capture';
+import { ScreenCapture } from "react-screen-capture";
 import UAParser from "ua-parser-js";
-import './App.css';
+import "./App.css";
 
 class App extends Component {
   state = {
-    screenCapture: '',
-    ipAddress: '',
+    screenCapture: "",
+    ipAddress: "",
     browserInfo: {},
-    name: '',
+    name: "",
     clientScreenCapture: null,
   };
 
@@ -31,14 +31,14 @@ class App extends Component {
     this.setState({ browserInfo: result });
   }
 
-  handleScreenCapture = screenCapture => {
+  handleScreenCapture = (screenCapture) => {
     this.setState({ screenCapture });
   };
 
   handleSave = () => {
     const screenCaptureSource = this.state.screenCapture;
-    const downloadLink = document.createElement('a');
-    const fileName = 'react-screen-capture.png';
+    const downloadLink = document.createElement("a");
+    const fileName = "react-screen-capture.png";
 
     downloadLink.href = screenCaptureSource;
     downloadLink.download = fileName;
@@ -51,39 +51,42 @@ class App extends Component {
 
   handleClientScreenCapture = async () => {
     try {
-        const mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        const videoTrack = mediaStream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(videoTrack);
-        const bitmap = await imageCapture.grabFrame();
-        videoTrack.stop(); // Stop the video track to release the camera
+      const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+      });
+      const videoTrack = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(videoTrack);
+      const bitmap = await imageCapture.grabFrame();
+      videoTrack.stop(); // Stop the video track to release the camera
 
-        // Convert the bitmap to a data URL
-        const canvas = document.createElement('canvas');
-        canvas.width = bitmap.width;
-        canvas.height = bitmap.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(bitmap, 0, 0);
-        const dataUrl = canvas.toDataURL('image/png');
+      // Convert the bitmap to a data URL
+      const canvas = document.createElement("canvas");
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(bitmap, 0, 0);
+      const dataUrl = canvas.toDataURL("image/png");
 
-        // Set the state if you need to use the image in the current component
-        // this.setState({ clientScreenCapture: dataUrl });
+      // Set the state if you need to use the image in the current component
+      // this.setState({ clientScreenCapture: dataUrl });
 
-        // Open a new blank window
-        const imageWindow = window.open('', '_blank');
-        // Create an image element in the new window
-        const image = imageWindow.document.createElement('img');
-        image.src = dataUrl;
-        image.onload = () => {
-            // Append the image to the new window after it has loaded
-            imageWindow.document.body.appendChild(image);
-        };
+      // Open a new blank window
+      const imageWindow = window.open("", "_blank");
+      // Create an image element in the new window
+      const image = imageWindow.document.createElement("img");
+      image.src = dataUrl;
+      image.onload = () => {
+        // Append the image to the new window after it has loaded
+        imageWindow.document.body.appendChild(image);
+      };
     } catch (error) {
-        console.error('Error capturing the screen:', error);
+      console.error("Error capturing the screen:", error);
     }
-};
+  };
 
   render() {
-    const { screenCapture, ipAddress, browserInfo, name, clientScreenCapture } = this.state;
+    const { screenCapture, ipAddress, browserInfo, name, clientScreenCapture } =
+      this.state;
 
     return (
       <ScreenCapture onEndCapture={this.handleScreenCapture}>
@@ -93,7 +96,7 @@ class App extends Component {
             <p>Testing 123</p>
             <form id="testForm">
               <label htmlFor="nameInput">Enter your name:</label>
-              <input 
+              <input
                 type="text"
                 id="nameInput"
                 name="name"
@@ -101,10 +104,11 @@ class App extends Component {
                 onChange={this.handleInputChange}
               />
             </form>
-            
             <button onClick={onStartCapture}>screenshot</button>
-            <button onClick={this.handleClientScreenCapture}>Screen Capture</button> {/* New button for client-side screen capture */}
-
+            <button onClick={this.handleClientScreenCapture}>
+              Screen Capture
+            </button>{" "}
+            {/* New button for client-side screen capture */}
             {/* Display IP Address and Browser Info */}
             <div>
               <p>IP Address: {ipAddress}</p>
@@ -113,19 +117,18 @@ class App extends Component {
               <p>Operating System: {browserInfo.os?.name}</p>
               <p>OS Version: {browserInfo.os?.version}</p>
             </div>
-
             <center>
               {screenCapture && (
                 <div>
                   <h3>Screenshot Preview:</h3>
-                  <img src={screenCapture} alt='react-screen-capture' />
+                  <img src={screenCapture} alt="react-screen-capture" />
                   <button onClick={this.handleSave}>download screenshot</button>
                 </div>
               )}
               {clientScreenCapture && (
                 <div>
                   <h3>Client Screen Capture Preview:</h3>
-                  <img src={clientScreenCapture} alt='Client Screen Capture' />
+                  <img src={clientScreenCapture} alt="Client Screen Capture" />
                   {/* You can add a download button here if needed */}
                 </div>
               )}
