@@ -51,25 +51,36 @@ class App extends Component {
 
   handleClientScreenCapture = async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-      const videoTrack = mediaStream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(videoTrack);
-      const bitmap = await imageCapture.grabFrame();
-      videoTrack.stop(); // Stop the video track to release the camera
+        const mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+        const videoTrack = mediaStream.getVideoTracks()[0];
+        const imageCapture = new ImageCapture(videoTrack);
+        const bitmap = await imageCapture.grabFrame();
+        videoTrack.stop(); // Stop the video track to release the camera
 
-      // Convert the bitmap to a data URL
-      const canvas = document.createElement('canvas');
-      canvas.width = bitmap.width;
-      canvas.height = bitmap.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(bitmap, 0, 0);
-      const dataUrl = canvas.toDataURL('image/png');
+        // Convert the bitmap to a data URL
+        const canvas = document.createElement('canvas');
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(bitmap, 0, 0);
+        const dataUrl = canvas.toDataURL('image/png');
 
-      this.setState({ clientScreenCapture: dataUrl });
+        // Set the state if you need to use the image in the current component
+        // this.setState({ clientScreenCapture: dataUrl });
+
+        // Open a new blank window
+        const imageWindow = window.open('', '_blank');
+        // Create an image element in the new window
+        const image = imageWindow.document.createElement('img');
+        image.src = dataUrl;
+        image.onload = () => {
+            // Append the image to the new window after it has loaded
+            imageWindow.document.body.appendChild(image);
+        };
     } catch (error) {
-      console.error('Error capturing the screen:', error);
+        console.error('Error capturing the screen:', error);
     }
-  };
+};
 
   render() {
     const { screenCapture, ipAddress, browserInfo, name, clientScreenCapture } = this.state;
