@@ -80,8 +80,13 @@ class App extends Component {
             </div>
 
             <center>
-              <img src={screenCapture} alt='react-screen-capture' />
-              {screenCapture && <button onClick={this.handleSave}>download screenshot</button>}
+              {screenCapture && (
+                <div>
+                  <h3>Screenshot Preview:</h3>
+                  <img src={screenCapture} alt='react-screen-capture' />
+                  <button onClick={this.handleSave}>download screenshot</button>
+                </div>
+              )}
             </center>
           </div>
         )}
